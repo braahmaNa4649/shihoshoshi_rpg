@@ -1,0 +1,27 @@
+#main{
+  width: 400px;
+  margin: 0 auto;
+}
+#buffer_map{
+  display: none;
+}
+#gamepad{
+  position: relative;
+  top: -130px;
+  left: 10px;
+  opacity: 0.8;
+  width: 160px;
+  height: 100px;
+}
+#btn_left,#btn_up,#btn_right,#btn_down{
+  position: relative;
+  width: 30%;
+  height: 30px;
+}
+#btn_left,#btn_right{
+  top: 22px;
+}
+#btn_down{
+  top: 27px;
+  left: 51px;
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>司法書士RPG</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/mod_prototype.js"></script>
+    <script src="js/Mediator.js"></script>
+    <script src="js/Map.js"></script>
+    <script src="js/Gamepad.js"></script>
+    <script src="js/main.js"></script>
+  </head>
+  <body>
+    <div id="main">
+      <!--canvasは属性で幅高さ指定しないと画像表示がおかしくなる...-->
+      <canvas id="map" width="400" height="400"></canvas>
+      <div id="gamepad">
+        <input type="button" value="left" id="btn_left" />
+        <input type="button" value="up" id="btn_up" />
+        <input type="button" value="right" id="btn_right" />
+        <input type="button" value="down" id="btn_down" />
+      </div>
+    </div>
+    <canvas id="buffer_map" width="4000" height="4000"></canvas>
+  </body>
+</html>
