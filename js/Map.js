@@ -1,28 +1,25 @@
-function C_map( _id ){
-  with ( this ) {
-    id = _id;
-    model = new M_map();
-    view = new V_map( id );
-    // chrome対策
-    model.chip_image.onload = function (){
-      model.init_buffer();
-      // withにbindっぽい効果が有るから正常に呼び出せる
-      // this.draw_allとか書くとthisにchip_imageがセットされて死ぬ by IE9
-      draw_all( 0, 0 );
-    };
-  }
-}
-
-C_map.prototype = {
-  id: "",
+Namespace.map.C_map.prototype = {
+  id: "map",
   model: null,
   view: null,
   interval_id: -1,
+  initialize: function ( args ){
+    with ( this ) {
+      model = Class.Create( Namespace.map.M_map, null );
+      view = Class.Create( Namespace.map.V_map, [ id ] );
+      // chrome対策
+      model.chip_image.onload = function (){
+        model.init_buffer();
+        // withにbindっぽい効果が有るから正常に呼び出せる
+        // this.draw_allとか書くとthisにchip_imageがセットされて死ぬ by IE9
+        draw_all( 0, 0 );
+      };
+    }
+  },
   Receive_notify: function ( state ){
     if ( state.is_pushing ) {
       this.scroll( state.btn_type );
-    }
-    else {
+    } else {
       this.stop_scroll();
     }
   },
@@ -39,18 +36,7 @@ C_map.prototype = {
   }
 };
 
-function M_map(){
-
-  with ( this ) {
-    chip_image = new Image();
-    // IE対策
-    chip_image.src = "img/chip_40.png" + "?" + new Date().getTime();
-    buffer_canvas = document.getElementById( 'buffer_map' );
-    buffer_context = buffer_canvas.getContext( "2d" );
-  }
-}
-
-M_map.prototype = {
+Namespace.map.M_map.prototype = {
   x: 1800,
   y: 1800,
   buffer_canvas: null,
@@ -85,6 +71,15 @@ M_map.prototype = {
         { "x": 0, "y": 160 },
         { "x": 40, "y": 160 }
       ],
+  initialize: function ( args ){
+    with ( this ) {
+      chip_image = new Image();
+      // IE対策
+      chip_image.src = "img/chip_40.png" + "?" + new Date().getTime();
+      buffer_canvas = document.getElementById( 'buffer_map' );
+      buffer_context = buffer_canvas.getContext( "2d" );
+    }
+  },
   init_buffer: function (){
     with ( this ) {
       var l = chip_info.length;
@@ -129,42 +124,30 @@ M_map.prototype = {
 
 };
 
-function V_map( id ){
-  with ( this ) {
-    canvas = document.getElementById( id );
-    context = this.canvas.getContext( "2d" );
-    char_image = new Image();
-    // IE対策
-    char_image.src = "img/char_40.png" + "?" + new Date().getTime();
-  }
-}
-
-V_map.prototype = {
+Namespace.map.V_map.prototype = {
   canvas: null,
   context: null,
   char_image: null,
+  initialize: function ( id ){
+    with ( this ) {
+      canvas = document.getElementById( id );
+      context = canvas.getContext( "2d" );
+      char_image = new Image();
+      // IE対策
+      char_image.src = "img/char_40.png" + "?" + new Date().getTime();
+    }
+  },
   draw_all: function ( image_data ){
     this.context.putImageData( image_data, 0, 0 );
     // chrome対策
     // 初回描画用に分岐
     if ( this.char_image.width ) {
       this.draw_char();
-    }
-    else {
+    } else {
       $( this.char_image ).bind( "load", this.draw_char.bind( this ) );
     }
   },
   draw_char: function (){
     this.context.drawImage( this.char_image, 0, 160, 40, 40, 180, 180, 40, 40 );
   }
-
-//  draw: function ( sx, sy ){
-//    for ( var i = 0;i < map_chip_count;i++ ) {
-//      for ( var j = 0;j < map_chip_count;j++ ) {
-//        map_context.drawImage( buffer_map_canvas,
-//            x + i * chip_width, y + j * chip_height, chip_width, chip_height,
-//            i * chip_width, j * chip_height, chip_width, chip_height );
-//      }
-//    }
-//  }
 };

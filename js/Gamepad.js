@@ -1,7 +1,4 @@
-function Gamepad(){
-  this.assoc_events();
-}
-Gamepad.prototype = {
+Namespace.gamepad.Gamepad.prototype = {
   btn_ids: [
     "btn_left",
     "btn_up",
@@ -19,6 +16,9 @@ Gamepad.prototype = {
   state: {
     is_pushing: false,
     btn_type: ""
+  },
+  initialize:function (args){
+    this.assoc_events();
   },
   Get_state: function (){
     return this.state;
@@ -40,7 +40,7 @@ Gamepad.prototype = {
     this.state.is_pushing = true;
     var key = e.target.id.toUpperCase();
     this.state.btn_type = this[key];
-    Mediator.Notify4map( this.state );
+    Namespace.global.Mediator.Notify4map( this.state );
   },
   leave: function ( e ){
     e.preventDefault();
@@ -48,7 +48,7 @@ Gamepad.prototype = {
     if ( this.state.is_pushing ) {
       this.state.is_pushing = false;
       this.state.btn_type = "";
-      Mediator.Notify4map( this.state );
+      Namespace.global.Mediator.Notify4map( this.state );
     }
   }
 
