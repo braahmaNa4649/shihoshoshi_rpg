@@ -5,12 +5,11 @@ Namespace.screen.C_screen.prototype = {
   view: null,
   __initialize: function (){
     this.model = Class.Create( eval( "Namespace.screen.M_" + this.name ), null );
-    this.view = Class.Create( eval( "Namespace.screen.V_" + this.name ), [ this.id ] );
-    this._initialize( );
+    var chip_image_src=this.model.Get_char_image_src();
+    this.view = Class.Create( eval( "Namespace.screen.V_" + this.name ), [ this.id,chip_image_src ] );
+    this._initialize();
   },
-  _initialize: function ( ){
-
-  },
+  _initialize: function ( ){},
   Receive_notify: function ( state ){
     this._receive_notify( state );
   },
@@ -32,21 +31,30 @@ Namespace.screen.M_screen.prototype = {
   __initialize: function (){
     this._initialize();
   },
-  _initialize: function (){ }
+  _initialize: function (){},
+  get_chip_image_src:function (){
+    return "img/chip_40.png" + "?" + new Date().getTime();
+  },
+  Get_char_image_src:function (){
+    return "img/char_40.png" + "?" + new Date().getTime();
+  }
 };
 
 Namespace.screen.V_screen.prototype = {
+  char_image: null,
   canvas: null,
   context: null,
-  __initialize: function ( id ){
+  __initialize: function ( id,char_image_src ){
     this.canvas = document.getElementById( id );
     this.context = this.canvas.getContext( "2d" );
+    this.char_image = new Image();
+    this.char_image.src = char_image_src;
     this._initialize();
   },
   _initialize: function (){},
   Draw_all: function ( image_data ){
     this.context.putImageData( image_data, 0, 0 );
-    this._draw_all( image_data );
+    this._draw_all();
   },
-  _draw_all: function ( image_data ){ },
+  _draw_all: function (){},
 };

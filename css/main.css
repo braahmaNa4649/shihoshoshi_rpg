@@ -1,17 +1,30 @@
 #main{
   width: 400px;
   margin: 0 auto;
+  position: relative;
 }
 #buffer_map{
   display: none;
 }
+#map,#battle {
+  position: absolute;
+}
+#map{
+  z-index: 1;
+}
+#battle {
+  background-color: #000;
+  z-index: 2;
+  left: 410px;
+}
 #gamepad{
   position: relative;
-  top: -130px;
+  top: 300px;
   left: 10px;
   opacity: 0.8;
   width: 160px;
   height: 100px;
+  z-index: 3;
 }
 #btn_left,#btn_up,#btn_right,#btn_down{
   position: relative;

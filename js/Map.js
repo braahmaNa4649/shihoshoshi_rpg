@@ -3,15 +3,12 @@ Namespace.screen.C_map.prototype = {
   name: "map",
   interval_id: -1,
   _initialize: function (){
-    with ( this ) {
-      // chrome対策
-      model.chip_image.onload = function (){
-        model.init_buffer();
-        // withにbindっぽい効果が有るから正常に呼び出せる
-        // this.draw_allとか書くとthisにchip_imageがセットされて死ぬ by IE9
-        Draw_all( 0, 0 );
-      };
-    }
+    var self = this;
+    // chrome対策
+    this.model.chip_image.onload = function (){
+      self.model.init_buffer();
+      self.Draw_all( 0, 0 );
+    };
   },
   _receive_notify: function ( state ){
     if ( state.is_pushing ) {
@@ -65,7 +62,7 @@ Namespace.screen.M_map.prototype = {
     with ( this ) {
       chip_image = new Image();
       // IE対策
-      chip_image.src = "img/chip_40.png" + "?" + new Date().getTime();
+      chip_image.src=get_chip_image_src();
       buffer_canvas = document.getElementById( 'buffer_map' );
       buffer_context = buffer_canvas.getContext( "2d" );
     }
@@ -115,13 +112,8 @@ Namespace.screen.M_map.prototype = {
 Class.Extend( Namespace.screen.M_screen, Namespace.screen.M_map );
 
 Namespace.screen.V_map.prototype = {
-  char_image: null,
-  _initialize: function (){
-    this.char_image = new Image();
-    // IE対策
-    this.char_image.src = "img/char_40.png" + "?" + new Date().getTime();
-  },
-  _draw_all: function ( image_data ){
+  _initialize: function (){ },
+  _draw_all: function (){
     // chrome対策
     // 初回描画用に分岐
     if ( this.char_image.width ) {

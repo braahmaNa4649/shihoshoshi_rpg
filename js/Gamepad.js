@@ -37,9 +37,10 @@ Namespace.gamepad.Gamepad.prototype = {
   push: function ( e ){
     e.preventDefault();
 
+    // todo: write keyborard event
     this.state.is_pushing = true;
     var key = e.target.id.toUpperCase();
-    this.state.btn_type = this[key];
+    this.state.btn_type = this[ key ];
     Namespace.global.Mediator.Notify4map( this.state );
   },
   leave: function ( e ){
