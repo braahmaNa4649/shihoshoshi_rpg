@@ -49,12 +49,18 @@ Namespace.screen.M_battle.prototype = {
 Class.Extend( Namespace.screen.M_screen, Namespace.screen.M_battle );
 
 Namespace.screen.V_battle.prototype = {
-  forecolor:"#FFFFFF",
+  foreColor:"#FFFFFF",
+  backColor:"#000000",
   _initialize: function (){
     with (this.context){
-      strokeStyle=this.forecolor;
+      strokeStyle=this.foreColor;
       lineWidth=5;
-      strokeRect(20,250,360,130)
+      fillStyle=this.foreColor;
+      textBaseline="top";
+      font="18px monospace";
+      
+      strokeRect(20,250,360,130);
+      fillText("債権者が現れた！",40,270);
     }
     this.draw_char();
   },
