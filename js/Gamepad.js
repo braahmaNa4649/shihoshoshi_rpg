@@ -17,7 +17,7 @@ Namespace.gamepad.Gamepad.prototype = {
     is_pushing: false,
     btn_type: ""
   },
-  initialize:function (args){
+  __initialize:function (args){
     this.assoc_events();
   },
   Get_state: function (){

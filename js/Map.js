@@ -1,52 +1,42 @@
-Namespace.map.C_map.prototype = {
+Namespace.screen.C_map.prototype = {
   id: "map",
-  model: null,
-  view: null,
+  name: "map",
   interval_id: -1,
-  initialize: function ( args ){
+  _initialize: function (){
     with ( this ) {
-      model = Class.Create( Namespace.map.M_map, null );
-      view = Class.Create( Namespace.map.V_map, [ id ] );
       // chrome対策
       model.chip_image.onload = function (){
         model.init_buffer();
         // withにbindっぽい効果が有るから正常に呼び出せる
         // this.draw_allとか書くとthisにchip_imageがセットされて死ぬ by IE9
-        draw_all( 0, 0 );
+        Draw_all( 0, 0 );
       };
     }
   },
-  Receive_notify: function ( state ){
+  _receive_notify: function ( state ){
     if ( state.is_pushing ) {
       this.scroll( state.btn_type );
-    } else {
+    }
+    else {
       this.stop_scroll();
     }
   },
   scroll: function ( dest ){
-    var scroll_arg = this.model.Get_scroll_args( dest );
-    this.interval_id = this.draw_all.applyInterval( 20, this, scroll_arg );
+    var scroll_args = this.model.Get_scroll_args( dest );
+    this.interval_id = this.Draw_all.applyInterval( 20, this, scroll_args );
   },
   stop_scroll: function (){
     clearInterval( this.interval_id );
-  },
-  draw_all: function ( scroll_x, scroll_y ){
-    var image = this.model.get_scrolled_image( scroll_x, scroll_y );
-    this.view.draw_all( image );
   }
 };
+Class.Extend( Namespace.screen.C_screen, Namespace.screen.C_map );
 
-Namespace.map.M_map.prototype = {
+Namespace.screen.M_map.prototype = {
   x: 1800,
   y: 1800,
   buffer_canvas: null,
   buffer_context: null,
   buffer_chip_count: 100,
-  map_chip_count: 10,
-  map_width: 400,
-  map_height: 400,
-  chip_width: 40,
-  chip_height: 40,
   chip_image: null,
   chip_info:
       [
@@ -71,7 +61,7 @@ Namespace.map.M_map.prototype = {
         { "x": 0, "y": 160 },
         { "x": 40, "y": 160 }
       ],
-  initialize: function ( args ){
+  _initialize: function (){
     with ( this ) {
       chip_image = new Image();
       // IE対策
@@ -93,7 +83,7 @@ Namespace.map.M_map.prototype = {
       }
     }
   },
-  get_scrolled_image: function ( scroll_x, scroll_y ){
+  Get_scrolled_image: function ( scroll_x, scroll_y ){
     this.x += scroll_x;
     this.y += scroll_y;
     var image = this.buffer_context.getImageData( this.x, this.y, this.map_width, this.map_height );
@@ -121,29 +111,23 @@ Namespace.map.M_map.prototype = {
     return args;
 
   }
-
 };
+Class.Extend( Namespace.screen.M_screen, Namespace.screen.M_map );
 
-Namespace.map.V_map.prototype = {
-  canvas: null,
-  context: null,
+Namespace.screen.V_map.prototype = {
   char_image: null,
-  initialize: function ( id ){
-    with ( this ) {
-      canvas = document.getElementById( id );
-      context = canvas.getContext( "2d" );
-      char_image = new Image();
-      // IE対策
-      char_image.src = "img/char_40.png" + "?" + new Date().getTime();
-    }
+  _initialize: function (){
+    this.char_image = new Image();
+    // IE対策
+    this.char_image.src = "img/char_40.png" + "?" + new Date().getTime();
   },
-  draw_all: function ( image_data ){
-    this.context.putImageData( image_data, 0, 0 );
+  _draw_all: function ( image_data ){
     // chrome対策
     // 初回描画用に分岐
     if ( this.char_image.width ) {
       this.draw_char();
-    } else {
+    }
+    else {
       $( this.char_image ).bind( "load", this.draw_char.bind( this ) );
     }
   },
@@ -151,3 +135,4 @@ Namespace.map.V_map.prototype = {
     this.context.drawImage( this.char_image, 0, 160, 40, 40, 180, 180, 40, 40 );
   }
 };
+Class.Extend( Namespace.screen.V_screen, Namespace.screen.V_map );

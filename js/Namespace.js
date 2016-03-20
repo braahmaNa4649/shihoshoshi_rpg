@@ -2,7 +2,10 @@ var Namespace={
   global:{
     Mediator:null
   },
-  map:{
+  screen:{
+    C_screen:{},
+    M_screen:{},
+    V_screen:{},
     C_map:{},
     M_map:{},
     V_map:{}
