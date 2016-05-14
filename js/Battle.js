@@ -53,7 +53,7 @@ Namespace.screen.V_battle.prototype = {
   backColor:"#000000",
   fontSize:18,
   area_message_x:20,
-  area_message_y250,
+  area_message_y:250,
   area_message_width:360,
   area_message_height:130,
   _initialize: function (){
@@ -76,7 +76,7 @@ Namespace.screen.V_battle.prototype = {
   clear_message:function(){
       this.context.fillStyle=this.backColor;
       this.context.fillRectangle(this.area_message_x,this.area_message_y,this.area_message_width,this.area_message_height );
-  }
+  },
   _draw_all: function (){
   },
   draw_char: function (){
