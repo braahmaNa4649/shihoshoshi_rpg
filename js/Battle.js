@@ -22,29 +22,8 @@ Namespace.screen.M_battle.prototype = {
   x: -1,
   y: -1,
   _initialize: function (){
-  },
- Get_scroll_args: function ( dest ){
-    var args = [ 0, 0 ];
-    switch ( dest ) {
-      case "left":
-        args = [ -1, 0 ];
-        break;
-      case "up":
-        args = [ 0, -1 ];
-        break;
-      case "right":
-        args = [ 1, 0 ];
-        break;
-      case "down":
-        args = [ 0, 1 ];
-        break;
-      default:
-        break;
-    }
-
-    return args;
-
   }
+
 };
 Class.Extend( Namespace.screen.M_screen, Namespace.screen.M_battle );
 
@@ -56,6 +35,13 @@ Namespace.screen.V_battle.prototype = {
   area_message_y:250,
   area_message_width:360,
   area_message_height:130,
+	timerID: null,
+	Get_timerID: function (){
+		return this.timerID;
+	},
+	Set_timerID: function ( id ){
+		this.timerID = id;
+	},
   _initialize: function (){
     with (this.context){
       strokeStyle=this.foreColor;
@@ -68,11 +54,17 @@ Namespace.screen.V_battle.prototype = {
     }
     this.draw_char();
   },
-  draw_message:function(msg){
+  draw_message:function(msg,isCont){
     // todo:write crlf
       this.context.fillStyle=this.foreColor;
       this.context.fillText(msg,40,270);
+		if ( isCont===true) {
+			this.draw_triangle();
+		}
   },
+	draw_triangle: function (){
+		
+	},
   clear_message:function(){
       this.context.fillStyle=this.backColor;
       this.context.fillRectangle(this.area_message_x,this.area_message_y,this.area_message_width,this.area_message_height );

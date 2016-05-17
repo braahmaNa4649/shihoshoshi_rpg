@@ -41,7 +41,7 @@ Namespace.gamepad.Gamepad.prototype = {
     this.state.is_pushing = true;
     var key = e.target.id.toUpperCase();
     this.state.btn_type = this[ key ];
-    Namespace.global.Mediator.Notify4map( this.state );
+    Namespace.global.Mediator.Notify4screen( this.state );
   },
   leave: function ( e ){
     e.preventDefault();
@@ -49,7 +49,7 @@ Namespace.gamepad.Gamepad.prototype = {
     if ( this.state.is_pushing ) {
       this.state.is_pushing = false;
       this.state.btn_type = "";
-      Namespace.global.Mediator.Notify4map( this.state );
+      Namespace.global.Mediator.Notify4screen( this.state );
     }
   }
 

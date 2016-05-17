@@ -17,7 +17,13 @@ Namespace.screen.C_screen.prototype = {
   Draw_all: function ( x, y ){
     var image = this.model.Get_scrolled_image( x, y );
     this.view.Draw_all( image );
-  }
+  },
+	Get_is_active: function (){
+		return this.model.Get_is_active();
+	},
+	Set_is_active: function (is_active){
+		this.model.Set_is_active=is_active;
+	}
 };
 
 Namespace.screen.M_screen.prototype = {
@@ -28,6 +34,13 @@ Namespace.screen.M_screen.prototype = {
   map_height: 400,
   chip_width: 40,
   chip_height: 40,
+	is_active: false,
+	Get_is_active: function (){
+		return this.is_active;
+	},
+	Set_is_active: function ( is_active ){
+		this.is_active = is_active;
+	},
   __initialize: function (){
     this._initialize();
   },
@@ -37,6 +50,28 @@ Namespace.screen.M_screen.prototype = {
   },
   Get_char_image_src:function (){
     return "img/char_40.png" + "?" + new Date().getTime();
+  },
+ Get_scroll_args: function ( dest ){
+    var args = [ 0, 0 ];
+    switch ( dest ) {
+      case "left":
+        args = [ -1, 0 ];
+        break;
+      case "up":
+        args = [ 0, -1 ];
+        break;
+      case "right":
+        args = [ 1, 0 ];
+        break;
+      case "down":
+        args = [ 0, 1 ];
+        break;
+      default:
+        break;
+    }
+
+    return args;
+
   }
 };
 

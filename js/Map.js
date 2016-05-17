@@ -65,6 +65,7 @@ Namespace.screen.M_map.prototype = {
       chip_image.src=get_chip_image_src();
       buffer_canvas = document.getElementById( 'buffer_map' );
       buffer_context = buffer_canvas.getContext( "2d" );
+			Set_is_active(true);
     }
   },
   init_buffer: function (){
@@ -85,28 +86,6 @@ Namespace.screen.M_map.prototype = {
     this.y += scroll_y;
     var image = this.buffer_context.getImageData( this.x, this.y, this.map_width, this.map_height );
     return image;
-  },
-  Get_scroll_args: function ( dest ){
-    var args = [ 0, 0 ];
-    switch ( dest ) {
-      case "left":
-        args = [ -1, 0 ];
-        break;
-      case "up":
-        args = [ 0, -1 ];
-        break;
-      case "right":
-        args = [ 1, 0 ];
-        break;
-      case "down":
-        args = [ 0, 1 ];
-        break;
-      default:
-        break;
-    }
-
-    return args;
-
   }
 };
 Class.Extend( Namespace.screen.M_screen, Namespace.screen.M_map );

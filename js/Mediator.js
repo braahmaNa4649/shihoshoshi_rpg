@@ -1,13 +1,17 @@
 Namespace.global.Mediator = {
   map: null,
   gamepad: null,
-  Initialize: function ( _map, _gamepad ){
+	battle:null,
+  Initialize: function ( _map, _gamepad,_battle ){
     with ( this ) {
       map = _map;
       gamepad = _gamepad;
+			battle=_battle;
     }
   },
-  Notify4map: function ( state ){
+  Notify4screen: function ( state ){
+		// !todo: map,battle等アクティブウィンドウ取得して投げる
     this.map.Receive_notify( state );
+    this.battle.Receive_notify( state );
   }
 };
