@@ -1,6 +1,13 @@
+body{
+  margin: 0;
+  padding: 0;
+  line-height:1.4;
+  color:#333;
+  font-family:Arial, sans-serif;
+  font-size:0.9em;
+}
 #main{
-  width: 400px;
-  margin: 0 auto;
+  /*width: 400px;*/
   position: relative;
 }
 #buffer_map{

@@ -1,5 +1,4 @@
 Namespace.screen.C_map.prototype = {
-  id: "map",
   name: "map",
   interval_id: -1,
   _initialize: function (){
@@ -62,7 +61,7 @@ Namespace.screen.M_map.prototype = {
     with ( this ) {
       chip_image = new Image();
       // IE対策
-      chip_image.src=get_chip_image_src();
+      chip_image.src = get_chip_image_src();
       buffer_canvas = document.getElementById( 'buffer_map' );
       buffer_context = buffer_canvas.getContext( "2d" );
     }
@@ -89,16 +88,17 @@ Namespace.screen.M_map.prototype = {
   Get_scroll_args: function ( dest ){
     var args = [ 0, 0 ];
     switch ( dest ) {
-      case "left":
+      case Namespace.global.Mediator.DEST_LEFT:
         args = [ -1, 0 ];
         break;
-      case "up":
+      case Namespace.global.Mediator.DEST_UP:
         args = [ 0, -1 ];
         break;
-      case "right":
+      case Namespace.global.Mediator.DEST_RIGHT:
         args = [ 1, 0 ];
         break;
       case "down":
+      case Namespace.global.Mediator.DEST_DOWN:
         args = [ 0, 1 ];
         break;
       default:

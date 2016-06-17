@@ -1,12 +1,12 @@
 Namespace.screen.C_screen.prototype = {
-  id: "",
   name: "",
   model: null,
   view: null,
   __initialize: function (){
+    var id = this.name;
     this.model = Class.Create( eval( "Namespace.screen.M_" + this.name ), null );
-    var chip_image_src=this.model.Get_char_image_src();
-    this.view = Class.Create( eval( "Namespace.screen.V_" + this.name ), [ this.id,chip_image_src ] );
+    var chip_image_src = this.model.Get_char_image_src();
+    this.view = Class.Create( eval( "Namespace.screen.V_" + this.name ), [ id, chip_image_src ] );
     this._initialize();
   },
   _initialize: function ( ){},
@@ -32,10 +32,10 @@ Namespace.screen.M_screen.prototype = {
     this._initialize();
   },
   _initialize: function (){},
-  get_chip_image_src:function (){
+  get_chip_image_src: function (){
     return "img/chip_40.png" + "?" + new Date().getTime();
   },
-  Get_char_image_src:function (){
+  Get_char_image_src: function (){
     return "img/char_40.png" + "?" + new Date().getTime();
   }
 };
@@ -44,7 +44,7 @@ Namespace.screen.V_screen.prototype = {
   char_image: null,
   canvas: null,
   context: null,
-  __initialize: function ( id,char_image_src ){
+  __initialize: function ( id, char_image_src ){
     this.canvas = document.getElementById( id );
     this.context = this.canvas.getContext( "2d" );
     this.char_image = new Image();
