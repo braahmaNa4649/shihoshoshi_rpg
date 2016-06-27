@@ -34,6 +34,10 @@ Namespace.screen.M_map.prototype = {
   buffer_context: null,
   buffer_chip_count: 100,
   chip_image: null,
+  DEST_LEFT: "",
+  DEST_UP: "",
+  DEST_RIGHT: "",
+  DEST_DOWN: "",
   chip_info:
       [
         { "x": 0, "y": 0 },
@@ -57,13 +61,17 @@ Namespace.screen.M_map.prototype = {
         { "x": 0, "y": 160 },
         { "x": 40, "y": 160 }
       ],
-  _initialize: function (){
+  _initialize: function ( mediator ){
     with ( this ) {
       chip_image = new Image();
       // IE対策
       chip_image.src = get_chip_image_src();
       buffer_canvas = document.getElementById( 'buffer_map' );
       buffer_context = buffer_canvas.getContext( "2d" );
+      DEST_LEFT = mediator.DEST_LEFT;
+      DEST_UP = mediator.DEST_UP;
+      DEST_DOWN = mediator.DEST_DOWN;
+      DEST_RIGHT = mediator.DEST_RIGHT;
     }
   },
   init_buffer: function (){
@@ -88,17 +96,16 @@ Namespace.screen.M_map.prototype = {
   Get_scroll_args: function ( dest ){
     var args = [ 0, 0 ];
     switch ( dest ) {
-      case Namespace.global.Mediator.DEST_LEFT:
+      case this.DEST_LEFT:
         args = [ -1, 0 ];
         break;
-      case Namespace.global.Mediator.DEST_UP:
+      case this.DEST_UP:
         args = [ 0, -1 ];
         break;
-      case Namespace.global.Mediator.DEST_RIGHT:
+      case this.DEST_RIGHT:
         args = [ 1, 0 ];
         break;
-      case "down":
-      case Namespace.global.Mediator.DEST_DOWN:
+      case this.DEST_DOWN:
         args = [ 0, 1 ];
         break;
       default:

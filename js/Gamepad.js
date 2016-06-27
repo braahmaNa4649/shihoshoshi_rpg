@@ -3,25 +3,26 @@ Namespace.gamepad.Gamepad.prototype = {
     "btn_left",
     "btn_up",
     "btn_right",
-    "btn_down"
+    "btn_down",
+    "btn_ok"
   ],
   BTN_LEFT: "",
   BTN_UP: "",
   BTN_RIGHT: "",
   BTN_DOWN: "",
+  BTN_OK: "",
   MOUSE_BTN_LEFT: 1,
-  MOUSE_DOWN: "mousedown",
-  MOUSE_UP: "mouseup",
-  MOUSE_LEAVE: "mouseleave",
+  mediator: Namespace.global.Mediator,
   state: {
     is_pushing: false,
     btn_type: ""
   },
   __initialize: function ( args ){
-    this.BTN_LEFT = Namespace.global.Mediator.DEST_LEFT;
-    this.BTN_UP = Namespace.global.Mediator.DEST_UP;
-    this.BTN_RIGHT = Namespace.global.Mediator.DEST_RIGHT;
-    this.BTN_DOWN = Namespace.global.Mediator.DEST_DOWN;
+    this.BTN_LEFT = this.mediator.DEST_LEFT;
+    this.BTN_UP = this.mediator.DEST_UP;
+    this.BTN_RIGHT = this.mediator.DEST_RIGHT;
+    this.BTN_DOWN = this.mediator.DEST_DOWN;
+    this.BTN_OK = this.mediator.KIND_OK;
     this.assoc_events();
   },
   Get_state: function (){
@@ -39,30 +40,38 @@ Namespace.gamepad.Gamepad.prototype = {
         .keyup( $.proxy( this.leave, this ) );
   },
   push: function ( e ){
-    e.preventDefault();
     // キー押しっぱなしの場合はイベントが果てしなく続いてしまう
     if ( this.state.is_pushing ) {
       return;
     }
 
-    this.state.is_pushing = true;
     var type = "";
     if ( e.keyCode ) {
       type = this.getKey2Button( e.keyCode );
     }
-    else {
+    else if ( e.which ) {
+      if ( e.which === this.MOUSE_BTN_LEFT ) {
+        type = this[ e.target.id.toUpperCase() ];
+      }
+    }
+    else if ( e.originalEvent.changedTouches ) {
       type = this[ e.target.id.toUpperCase() ];
     }
-    this.state.btn_type = type;
-    Namespace.global.Mediator.Notify4map( this.state );
+
+    if ( type ) {
+      e.preventDefault();
+      this.state.is_pushing = true;
+      this.state.btn_type = type;
+      this.mediator.Notify4map( this.state );
+    }
   },
   leave: function ( e ){
-    e.preventDefault();
-
+    // 解除出来なくなるのが怖いので、単純チェックのみ
     if ( this.state.is_pushing ) {
+      e.preventDefault();
       this.state.is_pushing = false;
       this.state.btn_type = "";
-      Namespace.global.Mediator.Notify4map( this.state );
+      this.mediator.Notify4map( this.state );
     }
   },
   getKey2Button: function ( keyCode ){
@@ -71,7 +80,8 @@ Namespace.gamepad.Gamepad.prototype = {
       left: 37,
       up: 38,
       right: 39,
-      down: 40
+      down: 40,
+      enter: 13
     };
     switch ( keyCode ) {
       case codes.left:
@@ -86,13 +96,14 @@ Namespace.gamepad.Gamepad.prototype = {
       case codes.down:
         button = this.BTN_DOWN;
         break;
+      case codes.enter:
+        button = this.BTN_OK;
+        break;
       default :
         break;
     }
 
     return button;
-
-
   }
 
 };

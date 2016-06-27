@@ -2,9 +2,10 @@ Namespace.screen.C_screen.prototype = {
   name: "",
   model: null,
   view: null,
+  mediator: Namespace.global.Mediator,
   __initialize: function (){
     var id = this.name;
-    this.model = Class.Create( eval( "Namespace.screen.M_" + this.name ), null );
+    this.model = Class.Create( eval( "Namespace.screen.M_" + this.name ), [ this.mediator ] );
     var chip_image_src = this.model.Get_char_image_src();
     this.view = Class.Create( eval( "Namespace.screen.V_" + this.name ), [ id, chip_image_src ] );
     this._initialize();
@@ -28,8 +29,8 @@ Namespace.screen.M_screen.prototype = {
   map_height: 400,
   chip_width: 40,
   chip_height: 40,
-  __initialize: function (){
-    this._initialize();
+  __initialize: function ( mediator ){
+    this._initialize( mediator );
   },
   _initialize: function (){},
   get_chip_image_src: function (){

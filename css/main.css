@@ -33,15 +33,24 @@ body{
   height: 100px;
   z-index: 3;
 }
-#btn_left,#btn_up,#btn_right,#btn_down{
+#btn_left,#btn_up,#btn_right,#btn_down,#btn_ok{
   position: relative;
+}
+#btn_left,#btn_up,#btn_right,#btn_down{
   width: 30%;
   height: 30px;
 }
-#btn_left,#btn_right{
+#btn_ok{
+  width: 20%;
+  height: 40px;
+}
+#btn_left,#btn_right,#btn_ok{
   top: 22px;
 }
 #btn_down{
   top: 27px;
   left: 51px;
+}
+#btn_ok{
+  right: 51px;
 }

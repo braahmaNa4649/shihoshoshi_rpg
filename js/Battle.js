@@ -4,19 +4,31 @@ Namespace.screen.C_battle.prototype = {
   _initialize: function (){
   },
   _receive_notify: function ( state ){
-    if ( state.is_pushing ) {
+    if ( state.is_pushing && state.btn_type === this.mediator.KIND_OK ) {
+      var msg = this.model.GetMessages();
+      this.view.DrawBattle( msg );
 //    console.log(state);
     }
     else {
 //    console.log(state);
+//this.view.clear_message();
     }
   }
 };
 Class.Extend( Namespace.screen.C_screen, Namespace.screen.C_battle );
 
 Namespace.screen.M_battle.prototype = {
-  _initialize: function (){
-  }
+  messages: [
+    "債権者が現れた！",
+    "債権者はいきなり襲い掛かってきた！",
+    "問題です。",
+    "次の問に○か×で答えよ。"
+  ],
+  _initialize: function ( mediator ){
+  },
+  GetMessages: function (){
+    return this.messages;
+  },
 };
 Class.Extend( Namespace.screen.M_screen, Namespace.screen.M_battle );
 
@@ -35,19 +47,27 @@ Namespace.screen.V_battle.prototype = {
       fillStyle = this.foreColor;
       textBaseline = "top";
       font = this.fontSize + "px monospace";
-      strokeRect( this.area_message_x, this.area_message_y, this.area_message_width, this.area_message_height );
-      this.draw_message( "債権者が現れた！" );
     }
+  },
+  DrawBattle: function ( msgs ){
+    this.drawRect();
+    this.clear_message();
+    this.draw_message( msgs );
     this.draw_char();
   },
-  draw_message: function ( msg ){
-    // todo:write crlf
+  drawRect: function (){
+    this.context.strokeRect( this.area_message_x, this.area_message_y, this.area_message_width, this.area_message_height );
+  },
+  draw_message: function ( msgs ){
     this.context.fillStyle = this.foreColor;
-    this.context.fillText( msg, 40, 270 );
+    var l = msgs.length;
+    for ( var i = 0;i < l;i++ ) {
+      this.context.fillText( msgs[i], 40, 270 + 25 * i );
+    }
   },
   clear_message: function (){
     this.context.fillStyle = this.backColor;
-    this.context.fillRectangle( this.area_message_x, this.area_message_y, this.area_message_width, this.area_message_height );
+    this.context.fillRect( this.area_message_x, this.area_message_y, this.area_message_width, this.area_message_height );
   },
   _draw_all: function (){
   },
